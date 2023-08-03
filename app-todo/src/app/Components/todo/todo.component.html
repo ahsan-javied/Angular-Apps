@@ -1,0 +1,53 @@
+<!-- <mat-toolbar color="primary"> -->
+<h1>
+    My To Do Store
+</h1>
+
+
+
+<div class="m-1">
+    <app-todo-form></app-todo-form>
+</div>
+
+
+<div class="m-1">
+    <form [formGroup]="todoForm" (ngSubmit)="getTasksList()">
+        <div class="form-group">
+            <label class="center-block">Search Title:
+                <input class="form-control" formControlName="searchTitle" placeholder="Search...">
+            </label>
+            <button class="btn btn-primary" type="submit" [disabled]="todoForm.invalid">
+                Filter
+            </button>
+        </div>
+    </form>
+</div>
+<div *ngIf="todoList.length > 0">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>S/N</th>
+                <th>Title</th>
+                <th>Action(s)</th>
+                <th>Completed</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of todoList; let i = index">
+                <td>{{ i + 1}}</td>
+                <td>{{ item.title }}</td>
+                <td>
+                    <mat-checkbox class="example-margin" (change)="completeTask($event.checked, item.id)" labelPosition='before'>Completed:</mat-checkbox>
+                    <button class="btn btn-primary mt-3" type="button" (click)="deleteTask(item.id)">Delete</button>
+                </td>
+                <td>
+                    <div [ngSwitch]="item.isCompleted">
+                        <div *ngSwitchCase="true">Yes</div>
+                        <div *ngSwitchCase="false">No</div>
+                        <div *ngSwitchDefault>N/A</div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
